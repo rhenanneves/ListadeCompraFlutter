@@ -24,32 +24,42 @@ class _ListaDeComprasViewState extends State<ListaDeComprasView> {
               itemCount: widget.controller.listaDeCompras.length,
               itemBuilder: (BuildContext context, int index) {
                 final item = widget.controller.listaDeCompras[index];
-                return ListTile(
-                  title: TextFormField(
-                    initialValue: item.nome,
-                    onChanged: (value) {
-                      setState(() {
-                        item.nome = value;
-                        widget.controller.atualizarTotal();
-                      });
-                    },
-                  ),
-                  subtitle: TextFormField(
-                    initialValue: item.preco.toString(),
-                    onChanged: (value) {
-                      setState(() {
-                        item.preco = double.tryParse(value) ?? 0;
-                        widget.controller.atualizarTotal();
-                      });
-                    },
-                  ),
-                  trailing: IconButton(
-                    icon: Icon(Icons.delete),
-                    onPressed: () {
-                      setState(() {
-                        widget.controller.removeItem(index);
-                      });
-                    },
+                return Card(
+                  elevation: 4,
+                  margin: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                  child: ListTile(
+                    title: TextFormField(
+                      initialValue: item.nome,
+                      decoration: InputDecoration(
+                        labelText: 'Nome',
+                      ),
+                      onChanged: (value) {
+                        setState(() {
+                          item.nome = value;
+                          widget.controller.atualizarTotal();
+                        });
+                      },
+                    ),
+                    subtitle: TextFormField(
+                      initialValue: item.preco.toString(),
+                      decoration: InputDecoration(
+                        labelText: 'Preço',
+                      ),
+                      onChanged: (value) {
+                        setState(() {
+                          item.preco = double.tryParse(value) ?? 0;
+                          widget.controller.atualizarTotal();
+                        });
+                      },
+                    ),
+                    trailing: IconButton(
+                      icon: Icon(Icons.delete),
+                      onPressed: () {
+                        setState(() {
+                          widget.controller.removeItem(index);
+                        });
+                      },
+                    ),
                   ),
                 );
               },
@@ -74,8 +84,7 @@ class _ListaDeComprasViewState extends State<ListaDeComprasView> {
                     decoration: InputDecoration(
                       hintText: 'Preço',
                     ),
-                    keyboardType:
-                        TextInputType.numberWithOptions(decimal: true),
+                    keyboardType: TextInputType.numberWithOptions(decimal: true),
                   ),
                 ),
                 IconButton(
@@ -89,9 +98,13 @@ class _ListaDeComprasViewState extends State<ListaDeComprasView> {
               ],
             ),
           ),
-          Text(
-            'Total: R\$ ${widget.controller.calcularTotal().toStringAsFixed(2)}',
-            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+          Container(
+            padding: EdgeInsets.all(16),
+            alignment: Alignment.centerRight,
+            child: Text(
+              'Total: R\$ ${widget.controller.calcularTotal().toStringAsFixed(2)}',
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            ),
           ),
         ],
       ),
