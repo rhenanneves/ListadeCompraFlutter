@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:projetofluttersomativa/ListaDeComprasController.dart';
 
-
 class ListaDeComprasView extends StatefulWidget {
   final ListaDeComprasController controller;
 
@@ -75,14 +74,15 @@ class _ListaDeComprasViewState extends State<ListaDeComprasView> {
                     decoration: InputDecoration(
                       hintText: 'Preço',
                     ),
-                    keyboardType: TextInputType.numberWithOptions(decimal: true),
+                    keyboardType:
+                        TextInputType.numberWithOptions(decimal: true),
                   ),
                 ),
                 IconButton(
                   icon: Icon(Icons.add),
                   onPressed: () {
                     setState(() {
-                      widget.controller.addItem();
+                      widget.controller.addItem(context);
                     });
                   },
                 ),

@@ -13,12 +13,22 @@ class ListaDeComprasController {
 
   List<ItemDeCompra> get listaDeCompras => _model.listaDeCompras;
 
-  void addItem() {
+  void addItem(BuildContext context) {
     if (textController.text.isNotEmpty && precoController.text.isNotEmpty) {
-      double preco = double.parse(precoController.text);
-      _model.adicionarItem(ItemDeCompra(nome: textController.text, preco: preco));
-      textController.clear();
-      precoController.clear();
+      // Verificar se o item já existe na lista
+      String nomeNovoItem = textController.text.toLowerCase();
+      bool itemExistente = _model.listaDeCompras
+          .any((item) => item.nome.toLowerCase() == nomeNovoItem);
+
+      if (!itemExistente) {
+        double preco = double.parse(precoController.text);
+        _model.adicionarItem(ItemDeCompra(nome: textController.text, preco: preco));
+        textController.clear();
+        precoController.clear();
+        _mostrarSnackBar(context, 'Item adicionado');
+      } else {
+        _mostrarSnackBar(context, 'Este item já existe na lista');
+      }
     }
   }
 
@@ -32,5 +42,10 @@ class ListaDeComprasController {
 
   void atualizarTotal() {
     _model.atualizarTotal();
+  }
+
+  void _mostrarSnackBar(BuildContext context, String mensagem) {
+    final snackBar = SnackBar(content: Text(mensagem));
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 }
